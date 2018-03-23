@@ -1,0 +1,4 @@
+framework module LogJam {
+    header "LogJam-Swift.h"
+    requires objc
+}

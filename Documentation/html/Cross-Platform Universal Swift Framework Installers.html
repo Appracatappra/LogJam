@@ -1,0 +1,261 @@
+<p>In this second part of our three part article on the steps Appracatappra uses to create <strong>Universal Frameworks</strong> in Swift, we will cover creating an <strong>Installer Package</strong> from our compiled <strong>Universal Frameworks</strong> that includes all of the Apple OSes that the framework supports and places them in the correct locations in the consumer&#39;s development computer.</p>
+
+<p>In the first part, <a href="http://appracatappra.com/2018/03/building-cross-platform-universal-frameworks-using-swift/">Building Cross-Platform Universal Frameworks using Swift</a>, we covered the steps to create the <strong>Universal Framework</strong> project, have it support multiple OSes, share as much code as possible across OSes, build the API documentation for each OS version and include both hardware and simulator support for iOS, watchOS and tvOS frameworks.</p>
+
+<p>As I stated in the first part, mine is not the only way to achieve this goal and it might not be the best way but, it works for me and I hope you can find this information useful too.</p>
+
+<p>This article contains the following sections:</p>
+
+<ul>
+<li><a href="#Building-Our-Packages">Building Our Packages</a></li>
+<li><a href="#Where-to-Install-the-Frameworks">Where to Install the Frameworks</a></li>
+<li><a href="#Creating-the-Installer-Package">Creating the Installer Package</a>
+
+<ul>
+<li><a href="#Creating-the-Installer-Project">Creating the Installer Project</a></li>
+<li><a href="#Defining-the-Installer-Presentation">Defining the Installer Presentation</a> 
+
+<ul>
+<li><a href="#Setting-the-Title">Setting the Title</a> </li>
+<li><a href="#Setting-the-Background-Image">Setting the Background Image</a></li>
+<li><a href="#Setting-the-Introduction-Message">Setting the Introduction Message</a></li>
+<li><a href="#Setting-the-Read-Me-Message">Setting the Read Me Message</a></li>
+<li><a href="#Setting-the-License-Agreement">Setting the License Agreement</a></li>
+</ul></li>
+<li><a href="#Configuring-the-Installer-Package">Configuring the Installer Package</a> </li>
+</ul></li>
+<li><a href="#Building-the-Installer-Package">Building the Installer Package</a></li>
+<li><a href="#Signing-the-Installer-Package">Signing the Installer Package</a></li>
+<li><a href="#Up-Next">Up Next</a></li>
+</ul>
+
+<p>I found much of the information for this article scattered throughout the internet, so another point of this article is to pull it all together in one place. I’ll give credit and link back to the original source articles, so you can look at different ways of structuring your projects to fit your own needs.</p>
+
+<p><a name="Building-Our-Packages"></a></p>
+
+<h1 id="toc_1">Building Our Packages</h1>
+
+<p>Using the <strong>Universal Framework Project</strong> that we created in the first part of this article, we will need to build each of the <strong>Packages</strong> that we created for each OS that our framework will support:</p>
+
+<p>Image</p>
+
+<p>To do this, click the <strong>Set the active scheme box</strong> at the top of Xcode to the first <strong>Package</strong> and build it:</p>
+
+<p>Image</p>
+
+<p>Repeat the process for each <strong>Package</strong> in the project. When completed, the project&#39;s directory will resemble the following, with the final builds in the <code>LogJam</code> subdirectory:</p>
+
+<p>Image</p>
+
+<p>The this directory will contain subdirectories for each of the Apple OSes that the framework supports:</p>
+
+<p>Image</p>
+
+<p>Inside each OS type folder is the OS specific version of the framework:</p>
+
+<p>Image</p>
+
+<p><a name="Where-to-Install-the-Frameworks"></a></p>
+
+<h1 id="toc_2">Where to Install the Frameworks</h1>
+
+<p>Now that we have the final framework versions built and ready to ship, there comes the question of where to install them in the client&#39;s development computer?</p>
+
+<p>According to the <a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPFrameworks/Tasks/InstallingFrameworks.html#//apple_ref/doc/uid/20002261-BBCCFBJA">Installing Your Framework</a> section of Apple&#39;s <a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPFrameworks/Frameworks.html#//apple_ref/doc/uid/10000183-SW1">Introduction to Framework Programming Guide</a> the typical location for public 3rd party frameworks is the <code>/Library/Frameworks</code> directory on the developer&#39;s computer.</p>
+
+<p>From Apple&#39;s documentation:</p>
+
+<blockquote>
+<p>For nearly all cases, installing your frameworks in <code>/Library/Frameworks</code> is the best choice. Frameworks in this location are discovered automatically by the compiler at compile time and the dynamic linker at runtime. Applications that link to frameworks in other directories, such as <code>~/Library/Frameworks</code> or <code>/Network/Library/Frameworks</code>, must specify the exact path to the framework at build time so that the dynamic linker can find it. If the path changes (as it might for a user home directory), the dynamic linker may be unable to find the framework.</p>
+</blockquote>
+
+<p>Now that we know where to place the final frameworks, we need to create an <strong>Install Package</strong> to automate the process.</p>
+
+<p><a name="Creating-the-Installer-Package"></a></p>
+
+<h1 id="toc_3">Creating the Installer Package</h1>
+
+<p>Most of the information for this section came from The Eclectic Light Company&#39;s <a href="https://eclecticlight.co/2017/03/08/making-an-installer-package-the-easier-way/">Making an Installer package the easier way</a> article.</p>
+
+<p>Apple no longer provides a GUI tool for creating <strong>Installer Packages</strong>, but instead relies on a pair of command line tools: <code>pkgbuild</code> &amp; <code>productbuild</code>. If you want to go this route, I would suggest reading The Grey Blog&#39;s <a href="http://thegreyblog.blogspot.co.uk/2014/06/os-x-creating-packages-from-command_2.html">Creating Packages from the Command Line</a>.</p>
+
+<p>That was a bit too much for the simple type of installs required for our <strong>Universal Swift Frameworks</strong>, so we chose to use Stéphane Sudre’s free <a href="http://s.sudre.free.fr/Software/Packages/about.html">Packages</a> app for macOS. As the The Eclectic Light Company&#39;s states, the app is old but works great on High Sierra and is easy to use.</p>
+
+<p>The one thing <strong>Packages</strong> is missing is the ability to sign the final <strong>Installer Package</strong> with the a <strong>Developer ID Installer Certificate</strong>, which is required to allow a consumer to install the package on newer version of macOS.</p>
+
+<p><a name="Creating-the-Installer-Project"></a></p>
+
+<h2 id="toc_4">Creating the Installer Project</h2>
+
+<p>With Packages install, start the app, select <strong>Distribution</strong> as the template type and click the <strong>Next</strong> button:</p>
+
+<p>Image</p>
+
+<p>Enter a <strong>Project Name</strong>:</p>
+
+<p>Image</p>
+
+<p>Click the <strong>Choose...</strong> button, navigate to your <strong>Universal Framework Project</strong> directory, click the <strong>New Folder</strong> button, create a new directory for the installer and choose the new location:</p>
+
+<p>Image</p>
+
+<p>Click the <strong>Create</strong> button and the main project screen of the Installer Project will be displayed:</p>
+
+<p>Image</p>
+
+<p><a name="Defining-the-Installer-Presentation"></a></p>
+
+<h2 id="toc_5">Defining the Installer Presentation</h2>
+
+<p>In this section we will define the look and feel of the <strong>Installer Package</strong> that will be built including the <strong>Title</strong>, <strong>Background Image</strong>, <strong>Introduction Message</strong>, <strong>Read Me</strong> message, <strong>License Agreement</strong> and <strong>Summary</strong> message.</p>
+
+<p>Several of the message section are optional and all of the sections can be localized. For each localization, you will create a file in the <strong>Universal Framework Project</strong> directory in one of the following formats: <code>TEXT</code>, <code>RTF</code>, <code>RTFd</code> or <code>HTML</code>. </p>
+
+<p><a name="Setting-the-Title"></a></p>
+
+<h3 id="toc_6">Setting the Title</h3>
+
+<p>Switch to the <strong>Presentation</strong> tab &gt; <strong>Title</strong> and change the <strong>Title</strong> of the <strong>Install Package</strong> for the given localization:</p>
+
+<p>Image</p>
+
+<p>Use the <strong>+</strong> button at the bottom of the list to add more localizations, if required.</p>
+
+<p><a name="Setting-the-Background-Image"></a></p>
+
+<h3 id="toc_7">Setting the Background Image</h3>
+
+<p>Select <strong>Background</strong> &gt; <strong>Custom Background</strong>:</p>
+
+<p>Image</p>
+
+<p>Under the <strong>Image</strong> dropdown, select <strong>Choose...</strong>, select the image to display and tap the <strong>Choose</strong> button:</p>
+
+<p>Image</p>
+
+<p>Set the <strong>Alignment</strong> to the bottom left hand corner to avoid the text (this is our preference, but select what works for you):</p>
+
+<p>Image</p>
+
+<p><a name="Setting-the-Introduction-Message"></a></p>
+
+<h3 id="toc_8">Setting the Introduction Message</h3>
+
+<p>The <strong>Introduction Message</strong> is the first screen shown by the installer. You will need to create a <code>TEXT</code>, <code>RTF</code>, <code>RTFd</code> or <code>HTML</code> file for each localization. </p>
+
+<p>Select <strong>Introduction</strong> and click the <strong>+</strong> button at the bottom of the list to add a localization:</p>
+
+<p>Image</p>
+
+<p>From the <strong>Localization</strong> dropdown select <strong>Choose...</strong> and pick the source file:</p>
+
+<p>Image</p>
+
+<p>The <strong>Introduction Message</strong> will be displayed:</p>
+
+<p>Image</p>
+
+<p><a name="Setting-the-Read-Me-Message"></a></p>
+
+<h3 id="toc_9">Setting the Read Me Message</h3>
+
+<p>We typically use the <strong>Read Me</strong> message to show what has changed in a new version of our frameworks. You will need to create a <code>TEXT</code>, <code>RTF</code>, <code>RTFd</code> or <code>HTML</code> file for each localization.</p>
+
+<p>Select <strong>Read Me</strong> and click the <strong>+</strong> button at the bottom of the list to add a localization:</p>
+
+<p>Image</p>
+
+<p>From the <strong>Localization</strong> dropdown select <strong>Choose...</strong> and pick the source file:</p>
+
+<p>Image</p>
+
+<p>The <strong>Read Me</strong> message will be displayed:</p>
+
+<p>Image</p>
+
+<p><a name="Setting-the-License-Agreement"></a></p>
+
+<h3 id="toc_10">Setting the License Agreement</h3>
+
+<p>Create a <strong>License Agreement</strong> for the type of framework you have created, for example the MIT license. You will need to create a <code>TEXT</code>, <code>RTF</code>, <code>RTFd</code> or <code>HTML</code> file for each localization.</p>
+
+<p>Select <strong>License Agreement</strong> and click the <strong>+</strong> button at the bottom of the list to add a localization:</p>
+
+<p>Image</p>
+
+<p>From the <strong>Localization</strong> dropdown select <strong>Choose...</strong> and pick the source file:</p>
+
+<p>Image</p>
+
+<p>The <strong>License Agreement</strong> message will be displayed:</p>
+
+<p>Image</p>
+
+<p><a name="Configuring-the-Installer-Package"></a></p>
+
+<h2 id="toc_11">Configuring the Installer Package</h2>
+
+<p>With the look and feel of the <strong>Installer Package</strong> defined, next we need to configure the package and define what get&#39;s installed where. Select the <strong>Package</strong> from the list, the <strong>Setting</strong> tab and enter the <strong>Identifier</strong> and <strong>Version</strong> number:</p>
+
+<p>Image</p>
+
+<p>Next, move the <strong>Payload</strong> tab and set what to install where. Select <strong>Library</strong> &gt; <strong>Frameworks</strong>:</p>
+
+<p>Image</p>
+
+<p>Click the <strong>+</strong> button at the bottom of the list and select the directory where all of the final builds of the frameworks was created, click the <strong>Add</strong> button:</p>
+
+<p>Image</p>
+
+<p>The folder will be added to the location:</p>
+
+<p>Image</p>
+
+<p>Save your changes to the <strong>Installer Project</strong>.</p>
+
+<p><a name="Building-the-Installer-Package"></a></p>
+
+<h1 id="toc_12">Building the Installer Package</h1>
+
+<p>With the <strong>Installer Project</strong> created and configured, we are ready to build our <strong>Installer Package</strong>. From the <strong>Build</strong> menu select <strong>Build</strong> and the results dialog will be displayed:</p>
+
+<p>Image</p>
+
+<p>If everything went correctly, you&#39;ll have the completed <strong>Installer Package</strong> in the <strong>Project Installer</strong> Directory under the <strong>Build</strong> directory:</p>
+
+<p>Image</p>
+
+<p><a name="Signing-the-Installer-Package"></a></p>
+
+<h1 id="toc_13">Signing the Installer Package</h1>
+
+<p>To be successfully installed on newer version of macOS, the <strong>Installer Package</strong> will need to be signed with your <strong>Developer ID Installer Certificate</strong> from Apple. This certificate can be created in Xcode under <strong>Preferences</strong> &gt; <strong>Accounts</strong> &gt; <strong>Manage Certificates...</strong> Creating this certificate is beyond the scope of this article, however, you should be able to find plenty of information about the process on the internet.</p>
+
+<p>Your certificate will be in the form &quot;<em>Developer ID Installer: Company Name (XXXXXXXXX)</em>&quot; in the <strong>Keychain Access</strong> App under <strong>My Certificates</strong>:</p>
+
+<p>Image</p>
+
+<p>You&#39;ll need to know this name exactly to sign the package.</p>
+
+<p>Next, start the Terminal app, and change to the directory where the Installer Package that was build by Packages is:</p>
+
+<p>Image</p>
+
+<p>Next, use the <code>productsign</code> command to sign the package with the key by entering the following command:</p>
+
+<div><pre><code class="language-bash">sudo productsign --sign &quot;Developer ID Installer: Company Name (XXXXXXXXX)&quot; LogJamInstaller.pkg LogJam.pkg</code></pre></div>
+
+<p>You should see output similar to the following:</p>
+
+<p>Image</p>
+
+<p>And the final installer should be in the <strong>Build</strong> directory:</p>
+
+<p>Image</p>
+
+<p><a name="Up Next"></a></p>
+
+<h1 id="toc_14">Up Next</h1>
+
+<p>In the final installment of this article, we&#39;ll show how to install and use the <strong>Universal Swift Framework</strong> on the developer&#39;s computer.</p>
+

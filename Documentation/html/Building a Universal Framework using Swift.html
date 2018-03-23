@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Building a Universal Framework using Swift</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+<style type="text/css">
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: black;
+	background: none;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
+code[class*="language-"]::selection, code[class*="language-"] ::selection {
+	text-shadow: none;
+	background: #b3d4fc;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #f5f2f0;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #999;
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #905;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+	color: #a67f59;
+	background: hsla(0, 0%, 100%, .5);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: #07a;
+}
+
+.token.function {
+	color: #DD4A68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="toc_0">Building Cross-Platform Universal Frameworks using Swift</h1>
+
+<p>This multipart article covers the steps Appracatappra uses to create Universal Framework projects in Swift that will support iOS, tvOS, watchOS and macOS, all while sharing as much common code as possible. </p>
+
+<p>There are several ways to achieve this goal with Swift in Xcode and there have been many articles already written on this subject. So, why am I creating another? I have two main reasons:</p>
+
+<ol>
+<li>Since we are creating frameworks meant to be sold (or released for free) to 3rd party developers, I&#39;ve made many tweaks to the process to support this. These include building a trial and release version of the framework, creating an install package and creating full API documentation.</li>
+<li>Currently, there are quite a few steps and I wanted to document them so I didn&#39;t forget.</li>
+</ol>
+
+<p>That said, I&#39;d like to stress this point again; mine is not the only way to achieve this goal and it might not be the best way but, it works for me. Hopefully, you can find my modifications useful as well.</p>
+
+<p>This article contains the following sections:</p>
+
+<ul>
+<li><a href="#">Building Cross-Platform Universal Frameworks using Swift</a>
+
+<ul>
+<li><a href="#A-Word-on-ABI-Stability">A Word on ABI Stability</a></li>
+<li><a href="#Why-Build-A-Framework">Why Build A Framework?</a></li>
+</ul></li>
+<li><a href="#Creating-the-Universal-Framework-Project">Creating the Universal Framework Project</a>
+
+<ul>
+<li><a href="#Creating-the-Main-Project">Creating the Main Project</a></li>
+<li><a href="#Adding-an-iOS-Target">Adding an iOS Target</a></li>
+<li><a href="#Adding-a-tvOS-Target">Adding a tvOS Target</a></li>
+<li><a href="#Adding-a-macOS-Target">Adding a macOS Target</a></li>
+</ul></li>
+<li><a href="#Adding-Code-and-Sharing-it-Cross-Platform">Adding Code and Sharing it Cross-Platform</a>
+
+<ul>
+<li><a href="#Adding-API-Documentation-Comments">Adding API Documentation Comments</a></li>
+<li><a href="#Adding-Platform-Specific-Code">Adding Platform Specific Code</a>
+
+<ul>
+<li><a href="#Using-if-endif">Using #if...#endif</a> </li>
+<li><a href="#Using-Specific-Target-Membership-Files">Using Specific Target Membership Files</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#Packaging-the-Universal-Framework">Packaging the Universal Framework</a>
+
+<ul>
+<li><a href="#Adding-an-iOS-Package">Adding an iOS Package</a> 
+
+<ul>
+<li><a href="#Creating-the-Universal-iOS-Library">Creating the Universal iOS Library</a> </li>
+<li><a href="#Creating-the-iOS-API-Documentation">Creating the iOS API Documentation</a></li>
+</ul></li>
+<li><a href="#Adding-a-tvOS-Package">Adding a tvOS Package</a> 
+
+<ul>
+<li><a href="#Creating-the-Universal-tvOS-Library">Creating the Universal tvOS Library</a> </li>
+<li><a href="#Creating-the-tvOS-API-Documentation">Creating the tvOS API Documentation</a></li>
+</ul></li>
+<li><a href="#Adding-a-macOS-Package">Adding a macOS Package</a>
+
+<ul>
+<li><a href="#Creating-the-macOS-Library">Creating the macOS Library</a></li>
+<li><a href="#Creating-the-macOS-API-Documentation">Creating the macOS API Documentation</a></li>
+</ul></li>
+<li><a href="#Setting-the-Packages-to-Build-the-Release-Version-of-the-Framework">Setting the Packages to Build the Release Version of the Framework</a></li>
+</ul></li>
+<li><a href="#Up-Next">Up Next</a></li>
+</ul>
+
+<p>I found much of the information for this article scattered throughout the internet, so another point of this article is to pull it all together in one place. I&#39;ll give credit and link back to the original source articles, so you can look at different ways of structuring your projects to fit your own needs.</p>
+
+<p><a name="A-Word-on-ABI-Stability"></a></p>
+
+<h2 id="toc_1">A Word on ABI Stability</h2>
+
+<p>Before we continue on, I need to bring up the topic of Swift ABI stability and why it is important when you are creating a framework in Swift.</p>
+
+<p>First, what is ABI Stability? ABI stands for <strong>Application Binary Interface</strong> and, just like an API does for source code, it provides the protocol that allows code written is Swift to call pre-compiled libraries. As of this writing, Swift 4 has not reached ABI Stability, so a precompiled framework written in Swift 4 can <strong>only</strong> be used by an app written in Swift 4.</p>
+
+<p>Swift 5 (which is planned to be released later this year) has the goal of achieving <a href="https://www.theregister.co.uk/2017/08/09/apple_swift_v5/">ABI Stability</a>. Until then, the app and the precompiled framework must be a matched set as far as which version of Swift they are written and compiled in.</p>
+
+<p><a name="Why-Build-A-Framework"></a></p>
+
+<h2 id="toc_2">Why Build A Framework?</h2>
+
+<p>Given the state of ABI Stability and Swift 4, why would you want to build a framework in the first place? One reason is if you plan on selling or releasing the framework to 3rd party developers without exposing the source (like we do). Another is to share common code across app projects while maintaining one copy. Yet another is to hide sensitive processes from in-house developers while allowing them access.</p>
+
+<p>There are many, valid reasons and, as long as you remember to match the app and the framework Swift versions, the current process works quite well.</p>
+
+<p><a name="Creating-the-Universal-Framework-Project"></a></p>
+
+<h1 id="toc_3">Creating the Universal Framework Project</h1>
+
+<p>Since the goal is to create different versions of the framework that support all of Apple&#39;s OSes (or as many as your project requires), runs on both the simulators and real hardware and shares as much code as possible, we will be creating one project with several targets in Xcode.</p>
+
+<p>For the sake of this example, we will create the <strong>LogJam</strong> library that writes the given message to the output inspector log in Xcode and supports iOS, tvOS and macOS.</p>
+
+<p>This section is based off of the information from <a href="https://github.com/TofPlay/SwiftCrossPlatformFramework">TofPlay/SwiftCrossPlatformFramework</a>, <a href="http://ilya.puchka.me/xcode-cross-platform-frameworks/">Xcode &amp; cross-platform frameworks</a> and <a href="https://theswiftdev.com/2017/10/23/how-to-make-a-swift-framework/">How to make a Swift framework?</a>.</p>
+
+<p><a name="Creating-the-Main-Project"></a></p>
+
+<h2 id="toc_4">Creating the Main Project</h2>
+
+<p>Start Xcode, and select <strong>File</strong> &gt; <strong>New</strong> &gt; <strong>Project...</strong> Next, select <strong>Cross-platform</strong> and <strong>Empty</strong>:</p>
+
+<p><img src="Images/Build01.png" alt=""></p>
+
+<p>Click the <strong>Next</strong> button, provide a <strong>Project Name</strong>, click <strong>Next</strong> again and select a location to save the project:</p>
+
+<p><img src="Images/Build02.png" alt=""></p>
+
+<p><a name="Adding-an-iOS-Target"></a></p>
+
+<h2 id="toc_5">Adding an iOS Target</h2>
+
+<p>With the main project created, next we need to add the targets for all of the Apple OSes that we want to support with the framework. We will end up repeating these steps for each OS. With the project selected in the <strong>Project Navigator</strong>, click the <strong>+</strong> button at the bottom of the <strong>Project and Targets</strong> list:</p>
+
+<p><img src="Images/Build03.png" alt=""></p>
+
+<p>Choose <strong>iOS</strong> &gt; <strong>Cocoa Touch Framework</strong> and click <strong>Next</strong>:</p>
+
+<p><img src="Images/Build04.png" alt=""></p>
+
+<p>Use the same name as the main project but append <code>iOS</code> and click the <strong>Finish</strong> button:</p>
+
+<p><img src="Images/Build05.png" alt=""></p>
+
+<p>Next, remove <code>_iOS</code> from the <strong>Bundle Identifier</strong>:</p>
+
+<p><img src="Images/Build05A.png" alt=""></p>
+
+<p>If we left things at this point, the framework that would be created would be called <code>LogJam_iOS.framework</code> and the namespace that would need to import would be <code>LogJam_iOS</code>, for example:</p>
+
+<div><pre><code class="language-swift">import Foundation
+import LogJam_iOS
+...</code></pre></div>
+
+<p>Which is not what we had in mind for a cross-platform framework. To fix this issue, select the <strong>Build Settings</strong> tab, scroll down to the <strong>Packaging</strong> section and double-click the <strong>Project Name</strong> setting and change it to <code>${PROJECT_NAME}</code>:</p>
+
+<p><img src="Images/Build06.png" alt=""></p>
+
+<p>With this done the <code>LogJam iOS</code> target will compile a <code>LogJam.framework</code> and use the <code>LogJam</code> namespace.</p>
+
+<p><a name="Adding-a-tvOS-Target"></a></p>
+
+<h2 id="toc_6">Adding a tvOS Target</h2>
+
+<p>At this stage, we will basically repeat the steps above to add a tvOS version. Add a new <strong>Target</strong>, choose <strong>tvOS</strong> &gt; <strong>TV Framework</strong> and click <strong>Next</strong>:</p>
+
+<p><img src="Images/Build07.png" alt=""></p>
+
+<p>Use the same name as the main project but append <code>tvOS</code> and click the <strong>Finish</strong> button:</p>
+
+<p><img src="Images/Build08.png" alt=""></p>
+
+<p>Next, remove <code>_tvOS</code> from the <strong>Bundle Identifier</strong>:</p>
+
+<p><img src="Images/Build08A.png" alt=""></p>
+
+<p>Select the <strong>Build Settings</strong> tab, scroll down to the <strong>Packaging</strong> section and double-click the <strong>Project Name</strong> setting and change it to <code>${PROJECT_NAME}</code>:</p>
+
+<p><img src="Images/Build09.png" alt=""></p>
+
+<p><a name="Adding-a-macOS-Target"></a></p>
+
+<h2 id="toc_7">Adding a macOS Target</h2>
+
+<p>Repeat the steps again to add the macOS Target. Add a new <strong>Target</strong>, choose <strong>macOS</strong> &gt; <strong>Cocoa Framework</strong> and click <strong>Next</strong>:</p>
+
+<p><img src="Images/Build10.png" alt=""></p>
+
+<p>Use the same name as the main project but append <code>macOS</code> and click the <strong>Finish</strong> button:</p>
+
+<p><img src="Images/Build11.png" alt=""></p>
+
+<p>Next, remove <code>_macOS</code> from the <strong>Bundle Identifier</strong>:</p>
+
+<p><img src="Images/Build11A.png" alt=""></p>
+
+<p>Select the <strong>Build Settings</strong> tab, scroll down to the <strong>Packaging</strong> section and double-click the <strong>Project Name</strong> setting and change it to <code>${PROJECT_NAME}</code>:</p>
+
+<p><img src="Images/Build12.png" alt=""></p>
+
+<p><a name="Adding-Code-and-Sharing-it-Cross-Platform"></a></p>
+
+<h1 id="toc_8">Adding Code and Sharing it Cross-Platform</h1>
+
+<p>One of the main goals of this exercise is to share as much of the code as possible across the different OS versions of the framework. Let&#39;s add a folder to the project to hold all of the shared code. Right-click on the project name in the <strong>Project Navigator</strong> and select <strong>New Group</strong>, enter the name <code>SharedCode</code>:</p>
+
+<p><img src="Images/Build13.png" alt=""></p>
+
+<p>For our example framework, lets add a single class that will be shared across all platforms to handle writing to the log file. Right-click on the <code>SharedCode</code> folder and select <strong>New File...</strong> &gt; <strong>iOS</strong> &gt; <strong>Swift File</strong>:</p>
+
+<p><img src="Images/Build14.png" alt=""></p>
+
+<p>Click the <strong>Next</strong> button, set the <strong>Save As</strong> name to <code>Logger.swift</code>, ensure that the <code>LogJam iOS</code>, <code>LogJam tvOS</code> and <code>LogJam macOS</code> Targets are selected and click the <strong>Create</strong> button:</p>
+
+<p><img src="Images/Build15.png" alt=""></p>
+
+<p>By selecting the <code>LogJam iOS</code>, <code>LogJam tvOS</code> and <code>LogJam macOS</code> Targets, the <code>Logger.swift</code> file will be compiled for all targets. If you need to change the targets later, select the file in the <strong>Project Navigator</strong> and set the <strong>Target Membership</strong> under the <strong>File Inspector</strong>:</p>
+
+<p><img src="Images/Build16.png" alt=""></p>
+
+<p><a name="Adding-API-Documentation-Comments"></a></p>
+
+<h2 id="toc_9">Adding API Documentation Comments</h2>
+
+<p>Next, we&#39;ll add the following code to the <code>Logger.swift</code> file and decorate it with comments for our API documentation:</p>
+
+<div><pre><code class="language-swift">//
+//  Logger.swift
+//  LogJam
+//
+//  Created by Kevin Mullins on 3/21/18.
+//
+
+import Foundation
+
+/**
+ Records the given message in the system log.
+ 
+ ```swift
+ import LogJam
+ ...
+ 
+ Logger.record(&quot;Log this message&quot;)
+ ```
+ */
+public class Logger {
+    
+    /**
+     Records the given message in the system log.
+     
+     ```swift
+     import LogJam
+     ...
+     
+     Logger.record(&quot;Log this message&quot;)
+     ```
+     
+     - Parameter text: The message to record.
+    */
+    public static func record(_ text: String) {
+        print(text)
+    }
+    
+}</code></pre></div>
+
+<p>APPCODA has an excellent article on <a href="https://www.appcoda.com/swift-markdown/">Documenting Your Swift Code in Xcode Using Markdown</a> so I won&#39;t reproduce that work here. With these comments in place, a developer consuming this framework can get <strong>Quick Help</strong> on any feature by ALT-Clicking on a function:</p>
+
+<p><img src="Images/Build17.png" alt=""></p>
+
+<p>Latter, we will be using Realm&#39;s <a href="https://github.com/realm/jazzy">Jazzy</a> to generate professional looking API documentation from these comments.</p>
+
+<p><a name="Adding-Platform-Specific-Code"></a></p>
+
+<h2 id="toc_10">Adding Platform Specific Code</h2>
+
+<p>There are two main mechanisms for adding platform-specific code to your framework projects: 1) by including code in <code>#if...#endif</code> compiler instructions, 2) by adding a new file and selecting a specific <strong>Target Membership</strong> (as show above).</p>
+
+<p><a name="Using-if-endif"></a></p>
+
+<h3 id="toc_11">Using #if...#endif</h3>
+
+<p>For simple changes, you can add <code>#if os(target)...#endif</code> compiler instructions to specify your platform specific code where <code>target</code> is one of the following:</p>
+
+<ul>
+<li><code>iOS</code></li>
+<li><code>watchOS</code></li>
+<li><code>tvOS</code></li>
+<li><code>macOS</code></li>
+</ul>
+
+<p>For example:</p>
+
+<div><pre><code class="language-swift">/// Returns `true` if the app is running in Apple CarPlay, else returns `false`.
+public static var isCar: Bool {
+    #if os(watchOS) || os(macOS)
+        return false
+    #else
+        return UIDevice.current.userInterfaceIdiom == .carPlay
+    #endif
+}</code></pre></div>
+
+<p>Again, I don&#39;t suggest this for large sections of code or for multiple, overlapping sections because it can make the code difficult to read and maintain.</p>
+
+<p><a name="Using-Specific-Target-Membership-Files"></a></p>
+
+<h3 id="toc_12">Using Specific Target Membership Files</h3>
+
+<p>For large, complex changes create a new file under the specific <strong>Target</strong> group in the <strong>Project Navigator</strong>. Take the example of our macOS specific code in our <a href="http://appracatappra.com/products/action-utilities/">Action Utilities</a> framework:</p>
+
+<p><img src="Images/Build18.png" alt=""></p>
+
+<p>The <code>ColorExtension.swift</code> file holds all of the macOS specific code and the file belongs to the <code>ActionUtilities macOS</code> <strong>Target Membership</strong>:</p>
+
+<p><img src="Images/Build19.png" alt=""></p>
+
+<p>This isolates the macOS in a single file making it easier to read and maintain. From here you can either have the full code of the require piece or use <strong>Extensions</strong> (<code>extension</code>) to add OS specific functionality.</p>
+
+<p><a name="Packaging-the-Universal-Framework"></a></p>
+
+<h1 id="toc_13">Packaging the Universal Framework</h1>
+
+<p>To this point, we have added the targets and code to build and test our framework for all of the supported Apple OSes and set the groundwork for building our API documentation.</p>
+
+<p>When we have the framework ready to ship, we will need a way to build a Universal Framework that will work on both real hardware and the simulators (for iOS, tvOS and watchOS), a way to create both trial and release version (if selling the framework) and a way to create our final API documentation.</p>
+
+<p>The information for this section came from the <a href="https://medium.com/swiftindia/build-a-custom-universal-framework-on-ios-swift-549c084de7c8">Build a Universal Framework for iOS using Swift</a> article.</p>
+
+<p><a name="Adding-an-iOS-Package"></a></p>
+
+<h2 id="toc_14">Adding an iOS Package</h2>
+
+<p>The first thing we need to do when creating a package is to compile both an iOS Simulator version of the framework and a iOS hardware version and combine them together using the <code>lipo</code> command.</p>
+
+<p>Select the project from the <strong>Project Navigator</strong> and add a new <strong>Target</strong>. Select <strong>Cross-platform</strong> &gt; <strong>Aggregate</strong> and click <strong>Next</strong>:</p>
+
+<p><img src="Images/Build20.png" alt=""></p>
+
+<p>Enter <code>Package iOS</code> for the <strong>Product Name</strong> and click <strong>Finish</strong>:</p>
+
+<p><img src="Images/Build21.png" alt=""></p>
+
+<p><a name="Creating-the-Universal-iOS-Library"></a></p>
+
+<h3 id="toc_15">Creating the Universal iOS Library</h3>
+
+<p>We will need to use a Shell Script to compile the two different version of the framework and combine them into one. The script I use is a heavily modified version from the <a href="https://medium.com/swiftindia/build-a-custom-universal-framework-on-ios-swift-549c084de7c8">Build a Universal Framework for iOS using Swift</a> article that support making a trail or release version as well.</p>
+
+<p>With the <code>Package iOS</code> target selected, go to the <strong>Build Phases</strong> tab, click the <strong>+</strong> button at the top to add a new phase and select <strong>New Run Script Phase</strong>. Double-click the new phases section tile and rename it <code>Make Universal Library</code>:</p>
+
+<p><img src="Images/Build22.png" alt=""></p>
+
+<p>Next, add the following script:</p>
+
+<div><pre><code class="language-bash">#!/bin/sh
+
+# Step 1: Define Macros
+RELEASE_TYPE=&quot;&quot;
+FRAMEWORK_VERSION=&quot;NOTRIAL_VERSION&quot;
+
+# Step 2: Define OS and directories
+UNIVERSAL_TARGET=&quot;iOS&quot;
+UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal-${UNIVERSAL_TARGET}
+UNIVERSAL_FRAMEWORKFOLDER=${PROJECT_NAME}${RELEASE_TYPE}/${UNIVERSAL_TARGET}
+DEVICE_OS=&quot;iphoneos&quot;
+DEVICE_SIMULATOR=&quot;iphonesimulator&quot;
+
+# Step 3: Make sure the output directories exists
+mkdir -p &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;
+mkdir -p &quot;${UNIVERSAL_FRAMEWORKFOLDER}&quot;
+
+# Step 4: Build Device and Simulator versions
+# See: https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html
+xcodebuild -target &quot;${PROJECT_NAME} ${UNIVERSAL_TARGET}&quot; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk ${DEVICE_OS}  BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; OTHER_SWIFT_FLAGS=&quot;-D ${FRAMEWORK_VERSION}&quot; clean build
+xcodebuild -target &quot;${PROJECT_NAME} ${UNIVERSAL_TARGET}&quot; VALID_ARCHS=&quot;x86_64 i386&quot; -configuration ${CONFIGURATION} -sdk ${DEVICE_SIMULATOR} ONLY_ACTIVE_ARCH=NO BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; OTHER_SWIFT_FLAGS=&quot;-D ${FRAMEWORK_VERSION}&quot; clean build
+
+# Step 5: Copy the framework structure (from iphoneos build) to the universal folder
+cp -R &quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_OS}/${PROJECT_NAME}.framework&quot; &quot;${UNIVERSAL_OUTPUTFOLDER}/&quot;
+
+# Step 6: Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory
+SIMULATOR_SWIFT_MODULES_DIR=&quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_SIMULATOR}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule/.&quot;
+if [ -d &quot;${SIMULATOR_SWIFT_MODULES_DIR}&quot; ]; then
+cp -R &quot;${SIMULATOR_SWIFT_MODULES_DIR}&quot; &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule&quot;
+fi
+
+# Step 7: Create universal binary file using lipo and place the combined executable in the copied framework directory
+lipo -create -output &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot; &quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_SIMULATOR}/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot; &quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_OS}/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot;
+
+# Step 8: Convenience step to copy the framework to the project&#39;s directory
+cp -R &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework&quot; &quot;${UNIVERSAL_FRAMEWORKFOLDER}/&quot;
+
+# Step 9: Convenience step to open the project&#39;s directory in Finder
+# open &quot;${UNIVERSAL_FRAMEWORKFOLDER}/&quot;
+
+# Step 10: Testing
+# open &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;</code></pre></div>
+
+<p>Let&#39;s break down what&#39;s going on here. </p>
+
+<h4 id="toc_16">Step 1: Define Macros</h4>
+
+<p>The first two variables are to support trial verses release version of the framework. For us, we use the following for release versions:</p>
+
+<div><pre><code class="language-bash"># Step 1: Define Macros
+RELEASE_TYPE=&quot;&quot;
+FRAMEWORK_VERSION=&quot;NOTRIAL_VERSION&quot;</code></pre></div>
+
+<p>And this version for trials:</p>
+
+<div><pre><code class="language-bash"># Step 1: Define Macros
+RELEASE_TYPE=&quot;Trial&quot;
+FRAMEWORK_VERSION=&quot;TRIAL_VERSION&quot;</code></pre></div>
+
+<p><code>RELEASE_TYPE</code> is added to the name of the folder that gets built containing the final build versions of the framework (one for each OS). <code>FRAMEWORK_VERSION</code> is passed as a macro definition during compilation that can be tested for using the following code:</p>
+
+<div><pre><code class="language-swift">#if TRIAL_VERSION
+    ACNotify.showMessage(text: &quot;Appracatappra ADSQLParser Trial&quot;)
+#endif</code></pre></div>
+
+<h4 id="toc_17">Step 2: Define OS and directories</h4>
+
+<p><code>UNIVERSAL_TARGET</code> is the human readable name of the sub folder that will be built and must match the prefix we added to each of the project Targets. <code>UNIVERSAL_OUTPUTFOLDER</code> is the name of the temporary folder that will hold the Universal Framework as it is being built. <code>UNIVERSAL_FRAMEWORKFOLDER</code> is the name of the folder that the completed framework will be copied to. <code>DEVICE_OS</code> and <code>DEVICE_SIMULATOR</code> define the hardware and simulator that the framework is being built for as:</p>
+
+<ul>
+<li><strong>iOS</strong> - <code>iphoneos</code> and <code>iphonesimulator</code>.</li>
+<li><strong>watchOS</strong> - <code>watchos</code> and <code>watchsimulator</code>.</li>
+<li><strong>tvOS</strong> - <code>appletvos</code> and <code>appletvsimulator</code>.</li>
+<li><strong>macOS</strong> - <code>macosx</code>, macOS does not use the <code>DEVICE_SIMULATOR</code> setting.</li>
+</ul>
+
+<h4 id="toc_18">Step 3: Make sure the output directories exists</h4>
+
+<p>Ensures that the required folders have been built.</p>
+
+<h4 id="toc_19"># Step 4: Build Device and Simulator versions</h4>
+
+<p>Creates the required hardware and simulator versions for the specific project Target with the given prefix (<code>${PROJECT_NAME} ${UNIVERSAL_TARGET}</code>). For example <code>LogJam iOS</code> for our current project and OS.</p>
+
+<h4 id="toc_20">Step 5: Copy the framework structure from iphoneos build</h4>
+
+<p>Copies the results of the iOS hardware specific framework to our temporary build directory.</p>
+
+<h4 id="toc_21">Step 6: Copy the framework structure from iphonesimulator build</h4>
+
+<p>Copies the results of the iOS Simulator specific framework to our temporary build directory.</p>
+
+<h4 id="toc_22">Step 7: Create universal binary file</h4>
+
+<p>Uses the <code>lipo</code> command to combine the hardware and simulator versions of the framework into one, Universal Framework.</p>
+
+<h4 id="toc_23"># Step 8: Copy the framework</h4>
+
+<p>Copies the resulting framework into the <code>UNIVERSAL_FRAMEWORKFOLDER</code> framework directory specified above.</p>
+
+<h4 id="toc_24">Steps 9 and 10</h4>
+
+<p>Can be used for convenience and testing to open the <code>UNIVERSAL_OUTPUTFOLDER</code> and <code>UNIVERSAL_FRAMEWORKFOLDER</code> framework directories specified above after the build completes.</p>
+
+<p><a name="Creating-the-iOS-API-Documentation"></a></p>
+
+<h3 id="toc_25">Creating the iOS API Documentation</h3>
+
+<p>Click the <strong>+</strong> button at the top to add a new phase and select <strong>New Run Script Phase</strong>. Double-click the new phases section tile and rename it <code>Build API Documentation</code>:</p>
+
+<p><img src="Images/Build23.png" alt=""></p>
+
+<p>Add the following script:</p>
+
+<div><pre><code class="language-bash">#!/bin/sh
+
+# Define macros
+API_TARGET=&quot;iOS&quot;
+API_OUTPUT=&quot;${PROJECT_DIR}/API/${API_TARGET}&quot;
+DEVICE_OS=&quot;iphoneos&quot;
+ROOT_URL=&quot;http://appracatappra.com/api/actionutilities/ios/&quot;
+
+# Make sure the output directory exists
+mkdir -p &quot;${API_OUTPUT}&quot;
+
+# Move to project directory
+cd &quot;${PROJECT_DIR}&quot;
+
+# Create documentation with Jazzy
+jazzy --output &quot;${API_OUTPUT}&quot; --sdk ${DEVICE_OS} --clean --xcodebuild-arguments -target,&quot;${PROJECT_NAME} ${API_TARGET}&quot; --module ${PROJECT_NAME} --author &quot;Appracatappra, LLC&quot; --root-url &quot;${ROOT_URL}&quot;
+
+# Open project directory
+# open &quot;${API_OUTPUT}&quot;</code></pre></div>
+
+<p>As stated in the <a href="#Adding-API-Documentation-Comments">Adding API Documentation Comments</a> section above, this script will use Realm&#39;s <a href="https://github.com/realm/jazzy">Jazzy</a> to generate professional looking API documentation from MarkDown comments in the code. For example:</p>
+
+<p><img src="Images/Build24.png" alt=""></p>
+
+<p><a name="Adding-a-tvOS-Package"></a></p>
+
+<h2 id="toc_26">Adding a tvOS Package</h2>
+
+<p>Let&#39;s repeat the steps to build the iOS Package above. Select the project from the <strong>Project Navigator</strong> and add a new <strong>Target</strong>. Select <strong>Cross-platform</strong> &gt; <strong>Aggregate</strong> and click <strong>Next</strong>:</p>
+
+<p><img src="Images/Build25.png" alt=""></p>
+
+<p>Enter <code>Package tvOS</code> for the <strong>Product Name</strong> and click <strong>Finish</strong>:</p>
+
+<p><img src="Images/Build26.png" alt=""></p>
+
+<p><a name="Creating-the-Universal-tvOS-Library"></a></p>
+
+<h3 id="toc_27">Creating the Universal tvOS Library</h3>
+
+<p>With the <code>Package tvOS</code> target selected, go to the <strong>Build Phases</strong> tab, click the <strong>+</strong> button at the top to add a new phase and select <strong>New Run Script Phase</strong>. Double-click the new phases section tile and rename it <code>Make Universal Library</code>. Next, add the following script:</p>
+
+<div><pre><code class="language-bash">#!/bin/sh
+
+# Define Macros
+RELEASE_TYPE=&quot;&quot;
+FRAMEWORK_VERSION=&quot;NOTRIAL_VERSION&quot;
+
+UNIVERSAL_TARGET=&quot;tvOS&quot;
+UNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal-${UNIVERSAL_TARGET}
+UNIVERSAL_FRAMEWORKFOLDER=${PROJECT_NAME}${RELEASE_TYPE}/${UNIVERSAL_TARGET}
+DEVICE_OS=&quot;appletvos&quot;
+DEVICE_SIMULATOR=&quot;appletvsimulator&quot;
+
+# Make sure the output directories exists
+mkdir -p &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;
+mkdir -p &quot;${UNIVERSAL_FRAMEWORKFOLDER}&quot;
+
+# Step 1. Build Device and Simulator versions
+# See: https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html
+xcodebuild -target &quot;${PROJECT_NAME} ${UNIVERSAL_TARGET}&quot; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk ${DEVICE_OS}  BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; OTHER_SWIFT_FLAGS=&quot;-D ${FRAMEWORK_VERSION}&quot; clean build
+xcodebuild -target &quot;${PROJECT_NAME} ${UNIVERSAL_TARGET}&quot; VALID_ARCHS=&quot;x86_64 i386&quot; -configuration ${CONFIGURATION} -sdk ${DEVICE_SIMULATOR} ONLY_ACTIVE_ARCH=NO BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; OTHER_SWIFT_FLAGS=&quot;-D ${FRAMEWORK_VERSION}&quot; clean build
+
+# Step 2. Copy the framework structure (from iphoneos build) to the universal folder
+cp -R &quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_OS}/${PROJECT_NAME}.framework&quot; &quot;${UNIVERSAL_OUTPUTFOLDER}/&quot;
+
+# Step 3. Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory
+SIMULATOR_SWIFT_MODULES_DIR=&quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_SIMULATOR}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule/.&quot;
+if [ -d &quot;${SIMULATOR_SWIFT_MODULES_DIR}&quot; ]; then
+cp -R &quot;${SIMULATOR_SWIFT_MODULES_DIR}&quot; &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule&quot;
+fi
+
+# Step 4. Create universal binary file using lipo and place the combined executable in the copied framework directory
+lipo -create -output &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot; &quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_SIMULATOR}/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot; &quot;${BUILD_DIR}/${CONFIGURATION}-${DEVICE_OS}/${PROJECT_NAME}.framework/${PROJECT_NAME}&quot;
+
+# Step 5. Convenience step to copy the framework to the project&#39;s directory
+cp -R &quot;${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework&quot; &quot;${UNIVERSAL_FRAMEWORKFOLDER}/&quot;
+
+# Step 6. Convenience step to open the project&#39;s directory in Finder
+# open &quot;${UNIVERSAL_FRAMEWORKFOLDER}/&quot;
+
+# KKM - Testing
+# open &quot;${UNIVERSAL_OUTPUTFOLDER}&quot;</code></pre></div>
+
+<p>See the <a href="#Creating-the-Universal-iOS-Library">Creating the Universal iOS Library</a> section above for the full details of what is going on here.</p>
+
+<p><a name="Creating-the-tvOS-API-Documentation"></a></p>
+
+<h3 id="toc_28">Creating the tvOS API Documentation</h3>
+
+<p>Click the <strong>+</strong> button at the top to add a new phase and select <strong>New Run Script Phase</strong>. Double-click the new phases section tile and rename it <code>Build API Documentation</code>. Add the following script:</p>
+
+<div><pre><code class="language-bash">#!/bin/sh
+
+# Define macros
+API_TARGET=&quot;tvOS&quot;
+API_OUTPUT=&quot;${PROJECT_DIR}/API/${API_TARGET}&quot;
+DEVICE_OS=&quot;appletvos&quot;
+ROOT_URL=&quot;http://appracatappra.com/api/actiondata/tvos/&quot;
+
+# Make sure the output directory exists
+mkdir -p &quot;${API_OUTPUT}&quot;
+
+# Move to project directory
+cd &quot;${PROJECT_DIR}&quot;
+
+# Create documentation with Jazzy
+jazzy --output &quot;${API_OUTPUT}&quot; --sdk ${DEVICE_OS} --clean --xcodebuild-arguments -target,&quot;${PROJECT_NAME} ${API_TARGET}&quot; --module ${PROJECT_NAME} --author &quot;Appracatappra, LLC&quot; --root-url &quot;${ROOT_URL}&quot;
+
+# Open project directory
+# open &quot;${API_OUTPUT}&quot;</code></pre></div>
+
+<p>See the <a href="#Creating-the-iOS-API-Documentation">Creating the iOS API Documentation</a> section above for the full details of what is going on here.</p>
+
+<p><a name="Adding-a-macOS-Package"></a></p>
+
+<h2 id="toc_29">Adding a macOS Package</h2>
+
+<p>Again, select the project from the <strong>Project Navigator</strong> and add a new <strong>Target</strong>. Select <strong>Cross-platform</strong> &gt; <strong>Aggregate</strong> and click <strong>Next</strong>:</p>
+
+<p><img src="Images/Build27.png" alt=""></p>
+
+<p>Enter <code>Package macOS</code> for the <strong>Product Name</strong> and click <strong>Finish</strong>:</p>
+
+<p><img src="Images/Build26.png" alt=""></p>
+
+<p><a name="Creating-the-macOS-Library"></a></p>
+
+<h3 id="toc_30">Creating the macOS Library</h3>
+
+<p>With the <code>Package macOS</code> target selected, go to the <strong>Build Phases</strong> tab, click the <strong>+</strong> button at the top to add a new phase and select <strong>New Run Script Phase</strong>. Double-click the new phases section tile and rename it <code>Make Universal Library</code>. Next, add the following script:</p>
+
+<div><pre><code class="language-bash">#!/bin/sh
+
+# Define Macros
+RELEASE_TYPE=&quot;&quot;
+FRAMEWORK_VERSION=&quot;NOTRIAL_VERSION&quot;
+
+UNIVERSAL_TARGET=&quot;macOS&quot;
+DEVICE_OS=&quot;macosx&quot;
+UNIVERSAL_FRAMEWORKFOLDER=${PROJECT_NAME}${RELEASE_TYPE}/${UNIVERSAL_TARGET}
+
+# Make sure the output directories exists
+mkdir -p &quot;${UNIVERSAL_FRAMEWORKFOLDER}&quot;
+
+# Step 1. Build Device and Simulator versions
+# See: https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html
+xcodebuild -target &quot;${PROJECT_NAME} ${UNIVERSAL_TARGET}&quot; ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk ${DEVICE_OS}  BUILD_DIR=&quot;${BUILD_DIR}&quot; BUILD_ROOT=&quot;${BUILD_ROOT}&quot; OTHER_SWIFT_FLAGS=&quot;-D ${FRAMEWORK_VERSION}&quot; clean build
+
+
+# Step 2. Copy the framework structure (from iphoneos build) to the universal folder
+cp -R &quot;${BUILD_DIR}/${CONFIGURATION}/${PROJECT_NAME}.framework&quot; &quot;${UNIVERSAL_FRAMEWORKFOLDER}/&quot;
+
+# Step 3. Convenience step to open the project&#39;s directory in Finder
+# open &quot;${UNIVERSAL_FRAMEWORKFOLDER}/&quot;
+</code></pre></div>
+
+<p>See the <a href="#Creating-the-Universal-iOS-Library">Creating the Universal iOS Library</a> section above for the full details of what is going on here.</p>
+
+<p><a name="Creating-the-macOS-API-Documentation"></a></p>
+
+<h3 id="toc_31">Creating the macOS API Documentation</h3>
+
+<p>Click the <strong>+</strong> button at the top to add a new phase and select <strong>New Run Script Phase</strong>. Double-click the new phases section tile and rename it <code>Build API Documentation</code>. Add the following script:</p>
+
+<div><pre><code class="language-bash">#!/bin/sh
+
+# Define macros
+API_TARGET=&quot;macOS&quot;
+API_OUTPUT=&quot;${PROJECT_DIR}/API/${API_TARGET}&quot;
+DEVICE_OS=&quot;macosx&quot;
+ROOT_URL=&quot;http://appracatappra.com/api/actiondata/macos/&quot;
+
+# Make sure the output directory exists
+mkdir -p &quot;${API_OUTPUT}&quot;
+
+# Move to project directory
+cd &quot;${PROJECT_DIR}&quot;
+
+# Create documentation with Jazzy
+jazzy --output &quot;${API_OUTPUT}&quot; --sdk ${DEVICE_OS} --clean --xcodebuild-arguments -target,&quot;${PROJECT_NAME} ${API_TARGET}&quot; --module ${PROJECT_NAME} --author &quot;Appracatappra, LLC&quot; --root-url &quot;${ROOT_URL}&quot;
+
+# Open project directory
+# open &quot;${API_OUTPUT}&quot;</code></pre></div>
+
+<p>See the <a href="#Creating-the-iOS-API-Documentation">Creating the iOS API Documentation</a> section above for the full details of what is going on here.</p>
+
+<p><a name="Setting-the-Packages-to-Build-the-Release-Version-of-the-Framework"></a></p>
+
+<h2 id="toc_32">Setting the Packages to Build the Release Version of the Framework</h2>
+
+<p>The final step is to set all of the Packages to build for Release instead of Debug mode. Click on the <strong>Action Scheme</strong> at the top of Xcode and select <strong>Manage Schemes...</strong>:</p>
+
+<p><img src="Images/Build28.png" alt=""></p>
+
+<p>Select <code>Package iOS</code> and click the <strong>Edit</strong> button:</p>
+
+<p><img src="Images/Build29.png" alt=""></p>
+
+<p>Set the <strong>Build Configuration</strong> to <strong>Release</strong> and click the <strong>Manage Schemes...</strong> button:</p>
+
+<p><img src="Images/Build30.png" alt=""></p>
+
+<p>Select <code>Package tvOS</code> and click the <strong>Edit</strong> button:</p>
+
+<p><img src="Images/Build31.png" alt=""></p>
+
+<p>Set the <strong>Build Configuration</strong> to <strong>Release</strong> and click the <strong>Manage Schemes...</strong> button:</p>
+
+<p><img src="Images/Build32.png" alt=""></p>
+
+<p>Select <code>Package macOS</code> and click the <strong>Edit</strong> button:</p>
+
+<p><img src="Images/Build33.png" alt=""></p>
+
+<p>Set the <strong>Build Configuration</strong> to <strong>Release</strong> and click the <strong>Close</strong> button:</p>
+
+<p><img src="Images/Build34.png" alt=""></p>
+
+<p><a name="Up-Next"></a></p>
+
+<h1 id="toc_33">Up Next</h1>
+
+<p>In the next part of this article we will cover creating an install package for the completed framework.</p>
+
+
+
+<script type="text/javascript">
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(){var e=/\blang(?:uage)?-(\w+)\b/i,t=0,n=_self.Prism={util:{encode:function(e){return e instanceof a?new a(e.type,n.util.encode(e.content),e.alias):"Array"===n.util.type(e)?e.map(n.util.encode):e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++t}),e.__id},clone:function(e){var t=n.util.type(e);switch(t){case"Object":var a={};for(var r in e)e.hasOwnProperty(r)&&(a[r]=n.util.clone(e[r]));return a;case"Array":return e.map&&e.map(function(e){return n.util.clone(e)})}return e}},languages:{extend:function(e,t){var a=n.util.clone(n.languages[e]);for(var r in t)a[r]=t[r];return a},insertBefore:function(e,t,a,r){r=r||n.languages;var l=r[e];if(2==arguments.length){a=arguments[1];for(var i in a)a.hasOwnProperty(i)&&(l[i]=a[i]);return l}var o={};for(var s in l)if(l.hasOwnProperty(s)){if(s==t)for(var i in a)a.hasOwnProperty(i)&&(o[i]=a[i]);o[s]=l[s]}return n.languages.DFS(n.languages,function(t,n){n===r[e]&&t!=e&&(this[t]=o)}),r[e]=o},DFS:function(e,t,a,r){r=r||{};for(var l in e)e.hasOwnProperty(l)&&(t.call(e,l,e[l],a||l),"Object"!==n.util.type(e[l])||r[n.util.objId(e[l])]?"Array"!==n.util.type(e[l])||r[n.util.objId(e[l])]||(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,l,r)):(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,null,r)))}},plugins:{},highlightAll:function(e,t){var a={callback:t,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};n.hooks.run("before-highlightall",a);for(var r,l=a.elements||document.querySelectorAll(a.selector),i=0;r=l[i++];)n.highlightElement(r,e===!0,a.callback)},highlightElement:function(t,a,r){for(var l,i,o=t;o&&!e.test(o.className);)o=o.parentNode;o&&(l=(o.className.match(e)||[,""])[1],i=n.languages[l]),t.className=t.className.replace(e,"").replace(/\s+/g," ")+" language-"+l,o=t.parentNode,/pre/i.test(o.nodeName)&&(o.className=o.className.replace(e,"").replace(/\s+/g," ")+" language-"+l);var s=t.textContent,u={element:t,language:l,grammar:i,code:s};if(!s||!i)return n.hooks.run("complete",u),void 0;if(n.hooks.run("before-highlight",u),a&&_self.Worker){var c=new Worker(n.filename);c.onmessage=function(e){u.highlightedCode=e.data,n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(u.element),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},c.postMessage(JSON.stringify({language:u.language,code:u.code,immediateClose:!0}))}else u.highlightedCode=n.highlight(u.code,u.grammar,u.language),n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(t),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},highlight:function(e,t,r){var l=n.tokenize(e,t);return a.stringify(n.util.encode(l),r)},tokenize:function(e,t){var a=n.Token,r=[e],l=t.rest;if(l){for(var i in l)t[i]=l[i];delete t.rest}e:for(var i in t)if(t.hasOwnProperty(i)&&t[i]){var o=t[i];o="Array"===n.util.type(o)?o:[o];for(var s=0;s<o.length;++s){var u=o[s],c=u.inside,g=!!u.lookbehind,h=!!u.greedy,f=0,d=u.alias;u=u.pattern||u;for(var p=0;p<r.length;p++){var m=r[p];if(r.length>e.length)break e;if(!(m instanceof a)){u.lastIndex=0;var y=u.exec(m),v=1;if(!y&&h&&p!=r.length-1){var b=r[p+1].matchedStr||r[p+1],k=m+b;if(p<r.length-2&&(k+=r[p+2].matchedStr||r[p+2]),u.lastIndex=0,y=u.exec(k),!y)continue;var w=y.index+(g?y[1].length:0);if(w>=m.length)continue;var _=y.index+y[0].length,P=m.length+b.length;if(v=3,P>=_){if(r[p+1].greedy)continue;v=2,k=k.slice(0,P)}m=k}if(y){g&&(f=y[1].length);var w=y.index+f,y=y[0].slice(f),_=w+y.length,S=m.slice(0,w),O=m.slice(_),j=[p,v];S&&j.push(S);var A=new a(i,c?n.tokenize(y,c):y,d,y,h);j.push(A),O&&j.push(O),Array.prototype.splice.apply(r,j)}}}}}return r},hooks:{all:{},add:function(e,t){var a=n.hooks.all;a[e]=a[e]||[],a[e].push(t)},run:function(e,t){var a=n.hooks.all[e];if(a&&a.length)for(var r,l=0;r=a[l++];)r(t)}}},a=n.Token=function(e,t,n,a,r){this.type=e,this.content=t,this.alias=n,this.matchedStr=a||null,this.greedy=!!r};if(a.stringify=function(e,t,r){if("string"==typeof e)return e;if("Array"===n.util.type(e))return e.map(function(n){return a.stringify(n,t,e)}).join("");var l={type:e.type,content:a.stringify(e.content,t,r),tag:"span",classes:["token",e.type],attributes:{},language:t,parent:r};if("comment"==l.type&&(l.attributes.spellcheck="true"),e.alias){var i="Array"===n.util.type(e.alias)?e.alias:[e.alias];Array.prototype.push.apply(l.classes,i)}n.hooks.run("wrap",l);var o="";for(var s in l.attributes)o+=(o?" ":"")+s+'="'+(l.attributes[s]||"")+'"';return"<"+l.tag+' class="'+l.classes.join(" ")+'" '+o+">"+l.content+"</"+l.tag+">"},!_self.document)return _self.addEventListener?(_self.addEventListener("message",function(e){var t=JSON.parse(e.data),a=t.language,r=t.code,l=t.immediateClose;_self.postMessage(n.highlight(r,n.languages[a],a)),l&&_self.close()},!1),_self.Prism):_self.Prism;var r=document.currentScript||[].slice.call(document.getElementsByTagName("script")).pop();return r&&(n.filename=r.src,document.addEventListener&&!r.hasAttribute("data-manual")&&document.addEventListener("DOMContentLoaded",n.highlightAll)),_self.Prism}();"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism);
+</script>
+
+<script type="text/javascript">
+!function(e){var t={variable:[{pattern:/\$?\(\([\w\W]+?\)\)/,inside:{variable:[{pattern:/(^\$\(\([\w\W]+)\)\)/,lookbehind:!0},/^\$\(\(/],number:/\b-?(?:0x[\dA-Fa-f]+|\d*\.?\d+(?:[Ee]-?\d+)?)\b/,operator:/--?|-=|\+\+?|\+=|!=?|~|\*\*?|\*=|\/=?|%=?|<<=?|>>=?|<=?|>=?|==?|&&?|&=|\^=?|\|\|?|\|=|\?|:/,punctuation:/\(\(?|\)\)?|,|;/}},{pattern:/\$\([^)]+\)|`[^`]+`/,inside:{variable:/^\$\(|^`|\)$|`$/}},/\$(?:[a-z0-9_#\?\*!@]+|\{[^}]+\})/i]};e.languages.bash={shebang:{pattern:/^#!\s*\/bin\/bash|^#!\s*\/bin\/sh/,alias:"important"},comment:{pattern:/(^|[^"{\\])#.*/,lookbehind:!0},string:[{pattern:/((?:^|[^<])<<\s*)(?:"|')?(\w+?)(?:"|')?\s*\r?\n(?:[\s\S])*?\r?\n\2/g,lookbehind:!0,inside:t},{pattern:/(["'])(?:\\\\|\\?[^\\])*?\1/g,inside:t}],variable:t.variable,"function":{pattern:/(^|\s|;|\||&)(?:alias|apropos|apt-get|aptitude|aspell|awk|basename|bash|bc|bg|builtin|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|command|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|ethtool|eval|exec|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|getopts|git|grep|groupadd|groupdel|groupmod|groups|gzip|hash|head|help|hg|history|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|jobs|join|kill|killall|less|link|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|most|mount|mtools|mtr|mv|mmv|nano|netstat|nice|nl|nohup|notify-send|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|quota|quotacheck|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|service|sftp|shift|shopt|shutdown|sleep|slocate|sort|source|split|ssh|stat|strace|su|sudo|sum|suspend|sync|tail|tar|tee|test|time|timeout|times|touch|top|traceroute|trap|tr|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unshar|uptime|useradd|userdel|usermod|users|uuencode|uudecode|v|vdir|vi|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yes|zip)(?=$|\s|;|\||&)/,lookbehind:!0},keyword:{pattern:/(^|\s|;|\||&)(?:let|:|\.|if|then|else|elif|fi|for|break|continue|while|in|case|function|select|do|done|until|echo|exit|return|set|declare)(?=$|\s|;|\||&)/,lookbehind:!0},"boolean":{pattern:/(^|\s|;|\||&)(?:true|false)(?=$|\s|;|\||&)/,lookbehind:!0},operator:/&&?|\|\|?|==?|!=?|<<<?|>>|<=?|>=?|=~/,punctuation:/\$?\(\(?|\)\)?|\.\.|[{}[\];]/};var a=t.variable[1].inside;a["function"]=e.languages.bash["function"],a.keyword=e.languages.bash.keyword,a.boolean=e.languages.bash.boolean,a.operator=e.languages.bash.operator,a.punctuation=e.languages.bash.punctuation}(Prism);
+</script>
+
+<script type="text/javascript">
+Prism.languages.clike={comment:[{pattern:/(^|[^\\])\/\*[\w\W]*?\*\//,lookbehind:!0},{pattern:/(^|[^\\:])\/\/.*/,lookbehind:!0}],string:{pattern:/(["'])(\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,greedy:!0},"class-name":{pattern:/((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/i,lookbehind:!0,inside:{punctuation:/(\.|\\)/}},keyword:/\b(if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/,"boolean":/\b(true|false)\b/,"function":/[a-z0-9_]+(?=\()/i,number:/\b-?(?:0x[\da-f]+|\d*\.?\d+(?:e[+-]?\d+)?)\b/i,operator:/--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/,punctuation:/[{}[\];(),.:]/};
+</script>
+
+<script type="text/javascript">
+Prism.languages.swift=Prism.languages.extend("clike",{string:{pattern:/("|')(\\(?:\((?:[^()]|\([^)]+\))+\)|\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,inside:{interpolation:{pattern:/\\\((?:[^()]|\([^)]+\))+\)/,inside:{delimiter:{pattern:/^\\\(|\)$/,alias:"variable"}}}}},keyword:/\b(as|associativity|break|case|catch|class|continue|convenience|default|defer|deinit|didSet|do|dynamic(?:Type)?|else|enum|extension|fallthrough|final|for|func|get|guard|if|import|in|infix|init|inout|internal|is|lazy|left|let|mutating|new|none|nonmutating|operator|optional|override|postfix|precedence|prefix|private|Protocol|public|repeat|required|rethrows|return|right|safe|self|Self|set|static|struct|subscript|super|switch|throws?|try|Type|typealias|unowned|unsafe|var|weak|where|while|willSet|__(?:COLUMN__|FILE__|FUNCTION__|LINE__))\b/,number:/\b([\d_]+(\.[\de_]+)?|0x[a-f0-9_]+(\.[a-f0-9p_]+)?|0b[01_]+|0o[0-7_]+)\b/i,constant:/\b(nil|[A-Z_]{2,}|k[A-Z][A-Za-z_]+)\b/,atrule:/@\b(IB(?:Outlet|Designable|Action|Inspectable)|class_protocol|exported|noreturn|NS(?:Copying|Managed)|objc|UIApplicationMain|auto_closure)\b/,builtin:/\b([A-Z]\S+|abs|advance|alignof(?:Value)?|assert|contains|count(?:Elements)?|debugPrint(?:ln)?|distance|drop(?:First|Last)|dump|enumerate|equal|filter|find|first|getVaList|indices|isEmpty|join|last|lexicographicalCompare|map|max(?:Element)?|min(?:Element)?|numericCast|overlaps|partition|print(?:ln)?|reduce|reflect|reverse|sizeof(?:Value)?|sort(?:ed)?|split|startsWith|stride(?:of(?:Value)?)?|suffix|swap|toDebugString|toString|transcode|underestimateCount|unsafeBitCast|with(?:ExtendedLifetime|Unsafe(?:MutablePointers?|Pointers?)|VaList))\b/}),Prism.languages.swift.string.inside.interpolation.inside.rest=Prism.util.clone(Prism.languages.swift);
+</script>
+
+
+</body>
+
+</html>
